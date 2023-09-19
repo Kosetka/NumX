@@ -1,6 +1,6 @@
 <?php
-    include '/functions/config.php';
-    include '/functions/functions.php'; 
+    include 'config.php';
+    include 'functions.php'; 
 
     $city = isset($_POST['city']) ? $_POST['city'] : '';
     $databaseType = isset($_POST['databaseType']) ? $_POST['databaseType'] : '';

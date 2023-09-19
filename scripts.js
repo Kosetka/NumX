@@ -18,7 +18,7 @@ function updateLastAccessDate() {
         phoneNumber = null;
     // Wywołaj funkcję PHP poprzez AJAX
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "update_last_access_date.php", true);
+    xhr.open("POST", "./functions/update_last_access_date.php", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
@@ -33,7 +33,7 @@ var labelsArray = [];
 
 function fetchQuantityFromDatabase(city, databaseType, action) {
     var xhr = new XMLHttpRequest();
-    var url = 'get_quantity.php';
+    var url = './functions/get_quantity.php';
     var params = 'city=' + encodeURIComponent(city) + '&databaseType=' + encodeURIComponent(databaseType) + '&action=' + encodeURIComponent(action);
 
     xhr.open('POST', url, true);
