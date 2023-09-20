@@ -156,7 +156,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pobierania Numerów</title>
+    <title>NumX</title>
     <link rel="stylesheet" type="text/css" href="style.css">
     <script src="scripts.js"></script>
 </head>
@@ -177,7 +177,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
     ?>
-    <h1>Formularz Pobierania Danych</h1>
+    <h1>Pobieranie Danych</h1>
     <form method="POST" action="">
         <table>
             <tr>
