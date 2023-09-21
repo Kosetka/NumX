@@ -3,7 +3,7 @@ session_start();
 require_once('./functions/config.php');
 
 if (isset($_SESSION['user_id'])) {
-    header("Location: download.php");
+    header("Location: index.php");
     exit();
 }
 
@@ -27,7 +27,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($row && password_verify($password, $row["password"])) {
         $_SESSION['user_id'] = $row["id"];
         $_SESSION['user_role'] = $row["role"];
-        header("Location: download.php");
+        $_SESSION['username'] = $row["username"];
+        header("Location: index.php");
         exit();
     } else {
         $error_message = "Błędna nazwa użytkownika lub hasło";
