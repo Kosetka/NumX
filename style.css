@@ -1,17 +1,16 @@
 table {
-    border: 2px solid #333;
+    border: 2px solid #383838;
     border-collapse: collapse;
     width: 100%;
 }
 
 th {
-    background-color: #061606;
     color: white;
-    border: 2px solid #333;
+    border: 2px solid #474747;
 }
 
 tr:nth-child(even) {
-    background-color: #f2f2f2;
+    background-color: #424242;
 }
 
 td, th {
@@ -62,4 +61,13 @@ tr:nth-child(5) {
 .error-message {
     color: red;
     font-weight: bold;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.content {
+    flex: 1;
 }

@@ -135,12 +135,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $downloadedCount = count($numbers); // Liczba numerów
 
     // Zapisanie info w logach o pobraniu numerów
-    $logQuery = "INSERT INTO logs (log_date, user_id, city, downloadedCount) VALUES (:log_date, :user_id, :city, :downloadedCount)";
+    $logQuery = "INSERT INTO logs (log_date, user_id, city, downloadedCount, filePath) VALUES (:log_date, :user_id, :city, :downloadedCount, :filePath)";
     $logStmt = $db->prepare($logQuery);
     $logStmt->bindParam(':log_date', $logDate, PDO::PARAM_STR);
     $logStmt->bindParam(':user_id', $userId, PDO::PARAM_STR);
     $logStmt->bindParam(':city', $city, PDO::PARAM_STR);
     $logStmt->bindParam(':downloadedCount', $downloadedCount, PDO::PARAM_STR);
+    $logStmt->bindParam(':filePath', $newFilePath, PDO::PARAM_STR);
     $logStmt->execute();
 
     $db = null;
@@ -152,18 +153,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="pl" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pobierania Numerów</title>
+    <title>Pobieranie numerów - NumX</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="style.css">
     <script src="scripts.js"></script>
 </head>
 <body>
+
+    <!-- Menu na górze -->
     <?php
         include('menu.php');
     ?>
+
+    <!-- Treść strony -->
+    <div class="container mt-5 content">
+    
     <?php
         if (isset($_GET['e'])) {
             if ($_GET['e'] == 1) {
@@ -177,7 +186,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
     ?>
-    <h1>Formularz Pobierania Danych</h1>
+    <h1>Pobieranie Danych</h1>
     <form method="POST" action="">
         <table>
             <tr>
@@ -269,19 +278,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </tr>
         </table>
     </form>
-                
-    <br><br><br><br><br><br><br>
+    </div>
 
-    <form method="POST" action="">
-        <label for="phoneNumber">Numer Telefonu (opcjonalnie):</label>
-        <input type="text" name="phoneNumber" id="phoneNumber"><br>
-        <button type="button" onclick="updateLastAccessDate()">Ustaw Datę Ostatniego Dostępu na 1 stycznia 2023</button>
-    </form>
+    <!-- Stopka -->
+    <footer class="text-center py-3">
+        &copy; 2023 NumX - zarządzanie numerami
+    </footer>
+
     <?php
         echo '<script>';
         echo 'var databaseTypes = ' . json_encode($databases_type) .';';
         echo '</script>';
     ?>
 
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 </body>
 </html>
