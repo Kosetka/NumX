@@ -12,15 +12,25 @@
         $usernameCreated = $_POST["usernameCreated"];
         $passwordCreated = $_POST["passwordCreated"];
         $confirm_password = $_POST["confirm_password"];
+        $firstName = $_POST["firstName"];
+        $lastName = $_POST["lastName"];
+        $email = $_POST["email"];
 
         // Zabezpiecz dane przed SQL Injection
         $usernameCreated = htmlspecialchars($usernameCreated);
         $passwordCreated = htmlspecialchars($passwordCreated);
         $confirm_password = htmlspecialchars($confirm_password);
+        $firstName = htmlspecialchars($firstName);
+        $lastName = htmlspecialchars($lastName);
+        $email = htmlspecialchars($email);
+
+
 
         // Sprawdź, czy hasło i potwierdzenie hasła są identyczne
         if ($passwordCreated != $confirm_password) {
             $error_message = "Hasło i potwierdzenie hasła są różne.";
+            header("Location: register.php?action=e2");
+            exit();
         } else {
             try {
                 $db = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
@@ -33,16 +43,19 @@
             $hashed_password = password_hash($passwordCreated, PASSWORD_BCRYPT);
 
             // Wstaw użytkownika do bazy danych
-            $stmt = $db->prepare("INSERT INTO users (username, password, role) VALUES (:usernameCreated, :passwordCreated, 'Koordynator')");
+            $stmt = $db->prepare("INSERT INTO users (username, password, role, firstname, lastname, email) VALUES (:usernameCreated, :passwordCreated, 'Koordynator', :firstName, :lastName, :email)");
             $stmt->bindParam(':usernameCreated', $usernameCreated);
             $stmt->bindParam(':passwordCreated', $hashed_password);
+            $stmt->bindParam(':firstName', $firstName);
+            $stmt->bindParam(':lastName', $lastName);
+            $stmt->bindParam(':email', $email);
 
             try {
                 $stmt->execute();
                 header("Location: register.php?action=success");
                 exit();
             } catch (PDOException $e){
-                header("Location: register.php?action=error");
+                header("Location: register.php?action=e1");
                 exit();
             }
             $db = null;
@@ -71,9 +84,14 @@
     <!-- Treść strony -->
     <div class="container mt-5 content">
         <?php
-            if (isset($_GET["action"]) && ($_GET["action"] == "error")) {
+            if (isset($_GET["action"]) && ($_GET["action"] == "e1")) {
                 echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
                     Błąd przy zakładaniu konta.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>';
+            } else if (isset($_GET["action"]) && ($_GET["action"] == "e2")) {
+                echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    Hasła muszą być jednakowe.
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>';
             } else if (isset($_GET["action"]) && ($_GET["action"] == "success")) {
@@ -83,22 +101,20 @@
                 </div>';
             }
         ?>
-        <h1>Rejestracja</h1>
-
-        <div class="col-md-7 col-lg-6">
-            <h4 class="mb-3">Rejestracja</h4>
-            <form class="needs-validation" novalidate method="post" action="<?php echo $_SERVER["PHP_SELF"]; ?>">
+        <div class="col-md-7 col-lg-6 mx-auto text-center">
+            <h4 class="mb-3">Dodawanie konta użytkownika</h4>
+            <form class="needs-validation" novalidate method="POST" action="<?php echo $_SERVER["PHP_SELF"]; ?>">
                 <div class="row g-3">
                     <div class="col-sm-6">
                         <label for="firstName" class="form-label">Imię</label>
-                        <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
+                        <input type="text" class="form-control" id="firstName" name="firstName" placeholder="" value="" required>
                         <div class="invalid-feedback">
                             Imię jest wymagane.
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <label for="lastName" class="form-label">Nazwisko</label>
-                        <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+                        <input type="text" class="form-control" id="lastName" name="lastName" placeholder="" value="" required>
                         <div class="invalid-feedback">
                             Nazwisko jest wymagane.
                         </div>
@@ -106,32 +122,41 @@
                     <div class="col-12">
                         <label for="usernameCreated" class="form-label">Nazwa użytkownika</label>
                         <div class="input-group has-validation">
-                            <span class="input-group-text">@</span>
-                            <input type="text" class="form-control" id="usernameCreated" name="usernameCreated" placeholder="Nazwa użytkownika" required>
-                        <div class="invalid-feedback">
-                            Nazwa użytkownika jest wymagana.
+                            <span class="input-group-text">Login</span>
+                            <input type="text" class="form-control" id="usernameCreated" name="usernameCreated" placeholder="" required>
+                            <div class="invalid-feedback">
+                                Nazwa użytkownika jest wymagana.
                             </div>
                         </div>
                     </div>
                     <div class="col-12">
                         <label for="email" class="form-label">E-mail <span class="text-body-secondary">(Opcjonalnie)</span></label>
-                        <input type="email" class="form-control" id="email" placeholder="twoj@mail.pl">
-                        <div class="invalid-feedback">
-                            Musisz podać prawidłowy adres e-mail.
+                        <div class="input-group has-validation">
+                            <span class="input-group-text">E-mail</span>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="">
+                            <div class="invalid-feedback">
+                                Musisz podać prawidłowy adres e-mail.
+                            </div>
                         </div>
                     </div>
                     <div class="col-12">
                         <label for="passwordCreated" class="form-label">Hasło</label>
-                        <input type="password" class="form-control" id="passwordCreated" name="passwordCreated" required>
-                        <div class="invalid-feedback">
-                            Hasła muszą się zgadzać.
+                        <div class="input-group has-validation">
+                            <span class="input-group-text">Password</span>
+                            <input type="password" class="form-control" id="passwordCreated" name="passwordCreated" required>
+                            <div class="invalid-feedback">
+                                Hasła muszą się zgadzać.
+                            </div>
                         </div>
                     </div>
                     <div class="col-12">
                         <label for="confirm_password" class="form-label">Powtórz hasło</label>
-                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
-                        <div class="invalid-feedback">
-                            Hasła muszą się zgadzać.
+                        <div class="input-group has-validation">
+                            <span class="input-group-text">Password</span>
+                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                            <div class="invalid-feedback">
+                                Hasła muszą się zgadzać.
+                            </div>
                         </div>
                     </div>
                 <button class="w-100 btn btn-primary btn-lg" type="submit">Załóż konto</button>

@@ -2,6 +2,8 @@
     if (isset($_SESSION['user_id']) && isset($_SESSION['user_role'])) {
         $userRole = $_SESSION['user_role'];
         $userName = $_SESSION['username'];
+        $firstName = $_SESSION['firstName'];
+        $lastName = $_SESSION['lastName'];
     } else {
         //header("Location: login.php");
         //exit();
@@ -34,10 +36,7 @@
                 <a class="nav-link" href="download.php">Pobieranie</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="szablon.php">Szablon</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                <a class="nav-link disabled" href="szablon.php">Szablon</a>
             </li>
             <li class="dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -45,7 +44,8 @@
                 </a>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="#">Raport 1</a></li>
-                    <li><a class="dropdown-item" href="#">Raport 2</a></li>
+                    <li><a class="dropdown-item" href="#">--> Statystyka pobranych numerów (kto i ile z okresu)</a></li>
+                    <li><a class="dropdown-item" href="#">--> Statystyka ilości numerów i rodzajów baz</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="#">Raport 3</a></li>
                 </ul>
@@ -59,8 +59,13 @@
                         Panel administratora
                     </a>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Opcja 1</a></li>
-                    <li><a class="dropdown-item" href="#">Opcja 2</a></li>
+                    <li><a class="dropdown-item" href="set_date.php">Resetowanie dat numerów</a></li>
+                    <li><a class="dropdown-item" href="#">--> Sprawdzanie kodów pocztowych</a></li>
+                    <li><a class="dropdown-item" href="#">--> Generowanie SMS</a></li>
+                    <li><a class="dropdown-item" href="#">--> Dodawanie numerów</a></li>
+                    <li><a class="dropdown-item" href="#">--> Historia logów</a></li>
+                    <li><a class="dropdown-item" href="#">--> Lista kont i edycja hasła/uprawnień</a></li>
+                    <li><a class="dropdown-item" href="#">--> panel dla miast i liczenie okolicy do X km</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="register.php">Załóż konto</a></li>
                 </ul>
@@ -74,7 +79,7 @@
             <li class="dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="https://github.com/kosetka.png" alt="mdo" width="32" height="32" class="rounded-circle">
-                    <strong>Twoje konto</strong>
+                    <strong><?php echo $firstName. ' ' . $lastName; ?></strong>
                 </a>
                 <ul class="dropdown-menu">
                     <li><span class="dropdown-item disabled" >Zalogowany jako:<br><strong><?php echo $userName;?></strong></span></li>

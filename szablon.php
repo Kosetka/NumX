@@ -29,7 +29,7 @@
 
     <!-- Treść strony -->
     <div class="container mt-5 content">
-        <h1>Strona główna</h1>
+        <h1>Szablom</h1>
         <p>To jest treść strony.</p>
     </div>
 
