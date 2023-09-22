@@ -3,9 +3,9 @@
     require_once('./functions/config.php');
     require_once('./functions/functions.php');
     
-    if (!isset($_SESSION['user_id'])) {
-        header('Location: index.php'); 
-        exit;
+    if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] != "Admin") {
+        header("Location: index.php");
+        exit();
     }
 ?>
 

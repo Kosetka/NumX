@@ -19,11 +19,17 @@
         $username = $_POST["username"];
         $password = $_POST["password"];
 
-        $stmt = $db->prepare("SELECT id, username, password, role, firstName, lastName FROM users WHERE username = :username");
+        $stmt = $db->prepare("SELECT id, username, password, role, firstName, lastName, active FROM users WHERE username = :username");
         $stmt->bindParam(':username', $username);
         $stmt->execute();
 
         $row = $stmt->fetch($db::FETCH_ASSOC);
+
+        $_SESSION['active'] = $row["active"];
+        if (isset($_SESSION['active']) && $_SESSION['active'] == 0) {
+            header("Location: index.php");
+            exit();
+        }
 
         if ($row && password_verify($password, $row["password"])) {
             $_SESSION['user_id'] = $row["id"];

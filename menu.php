@@ -1,4 +1,8 @@
 <?php
+    if (isset($_SESSION['active']) && $_SESSION['active'] == 0) {
+        header("Location: logout.php");
+        exit();
+    }
     if (isset($_SESSION['user_id']) && isset($_SESSION['user_role'])) {
         $userRole = $_SESSION['user_role'];
         $userName = $_SESSION['username'];
@@ -64,10 +68,10 @@
                     <li><a class="dropdown-item" href="#">--> Generowanie SMS</a></li>
                     <li><a class="dropdown-item" href="#">--> Dodawanie numerów</a></li>
                     <li><a class="dropdown-item" href="#">--> Historia logów</a></li>
-                    <li><a class="dropdown-item" href="#">--> Lista kont i edycja hasła/uprawnień</a></li>
                     <li><a class="dropdown-item" href="#">--> panel dla miast i liczenie okolicy do X km</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="register.php">Załóż konto</a></li>
+                    <li><a class="dropdown-item" href="accounts.php">Lista użytkowników</a></li>
                 </ul>
             </li>
             <?php

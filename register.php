@@ -43,7 +43,7 @@
             $hashed_password = password_hash($passwordCreated, PASSWORD_BCRYPT);
 
             // Wstaw użytkownika do bazy danych
-            $stmt = $db->prepare("INSERT INTO users (username, password, role, firstname, lastname, email) VALUES (:usernameCreated, :passwordCreated, 'Koordynator', :firstName, :lastName, :email)");
+            $stmt = $db->prepare("INSERT INTO users (username, password, role, firstname, lastname, email, active) VALUES (:usernameCreated, :passwordCreated, 'Koordynator', :firstName, :lastName, :email, 1)");
             $stmt->bindParam(':usernameCreated', $usernameCreated);
             $stmt->bindParam(':passwordCreated', $hashed_password);
             $stmt->bindParam(':firstName', $firstName);
