@@ -27,7 +27,7 @@
 
         $_SESSION['active'] = $row["active"];
         if (isset($_SESSION['active']) && $_SESSION['active'] == 0) {
-            header("Location: index.php");
+            header("Location: login.php");
             exit();
         }
 
@@ -77,6 +77,14 @@
                 <div class="form-floating">
                     <input type="password" class="form-control" id="password" name="password">
                     <label for="password">Hasło</label>
+                    <?php
+                        if(isset($error_message)){
+                            echo '<div class="alert alert-danger alert-dismissible fade show my-2" role="alert">
+                                ' . $error_message . '
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>';
+                        }
+                    ?>
                 </div>
                 <button class="btn btn-primary w-100 py-2 my-3" type="submit">Zaloguj</button>
             </form>
@@ -85,11 +93,7 @@
     
 
 
-    <?php
-if(isset($error_message)){
-    echo '<p style="color:red;">' . $error_message . '</p>';
-}
-?>
+    
 
     <!-- Stopka -->
     <footer class="text-center py-3">

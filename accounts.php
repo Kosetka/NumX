@@ -56,8 +56,7 @@
                 }
             }
 
-            //$roleCreated = $_POST["role"];
-            $roleCreated = 'Koordynator';
+            $roleCreated = $_POST["role"];
     
             // Zabezpiecz dane przed SQL Injection
             $passwordCreated = htmlspecialchars($passwordCreated);
@@ -79,7 +78,7 @@
             if ($passwordCreated == "") {
                 $stmt = $db->prepare("UPDATE users SET role = :roleCreated, firstname = :firstNameCreated2, lastname = :lastNameCreated2, email = :emailCreated, active = :activeCreated WHERE id = :id");
             } else {
-                $stmt = $db->prepare("UPDATE users SET password = :password, role = :roleCreated, firstname = :firstNameCreated2, lastname = :lastNameCreated2, email = :emailCreated, active = :activeCreated WHERE id = :id");
+                $stmt = $db->prepare("UPDATE users SET password = :passwordCreated, role = :roleCreated, firstname = :firstNameCreated2, lastname = :lastNameCreated2, email = :emailCreated, active = :activeCreated WHERE id = :id");
                 $stmt->bindParam(':passwordCreated', $hashed_password);
             }
 
@@ -95,15 +94,9 @@
 
             try {
                 $stmt->execute();
-                print_r($stmt);
-                echo $id . "<br>";
-                echo $firstNameCreated2 . "<br>";
-                echo $roleCreated . "<br>";
-                echo $lastNameCreated2 . "<br>";
-                echo $emailCreated . "<br>";
-                echo $activeCreated . "<br>";
+                $messegeStatus = 1;
             } catch (PDOException $e){
-                echo $e;
+                $messegeStatus = 0;
             }
             $db = null;
             
@@ -139,6 +132,7 @@
                 $userGetLastName = $rowUser['lastName'];
                 $userGetName = $rowUser['username'];
                 $userEmail = "";
+                $userRole = $rowUser['role'];
                 $active = $rowUser['active'];
                 if (isset($rowUser['email'])) {
                     $userEmail = $rowUser['email'];
@@ -199,6 +193,13 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-12">
+                        <label for="passwordCreated" class="form-label">Rola użytkownika</label>
+                        <select class="form-select form-select-sm" aria-label="Small select example" id="role" name="role">
+                            <option value="Admin" <?php echo ($userRole == 'Admin' ? 'selected': ''); ?>>Admin</option>
+                            <option value="Koordynator" <?php echo ($userRole == 'Koordynator' ? 'selected': ''); ?>>Koordynator</option>
+                        </select>
+                    </div>
                     <div class="col-12 ">
                         <label for="flexSwitchCheckChecked" class="form-label">Konto aktywne: </label>
                         <input class="form-check-input" type="checkbox" role="switch" name="active" id="flexSwitchCheckChecked" <?php echo ($active == 1 ? 'checked': ''); ?>>
@@ -215,6 +216,20 @@
                     </div>';
                 }
             }
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                if ($messegeStatus == 1) {
+                    echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                        Edycja konta pomyślna.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>';
+                } else if ($messegeStatus == 0) {
+                    echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        Błąd przy edytowaniu konta.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>';
+                }
+            }
+
         ?>
 
 
