@@ -47,11 +47,12 @@
                     Raporty
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Raport 1</a></li>
-                    <li><a class="dropdown-item" href="#">--> Statystyka pobranych numerów (kto i ile z okresu)</a></li>
-                    <li><a class="dropdown-item" href="#">--> Statystyka ilości numerów i rodzajów baz</a></li>
+                    <li><a class="dropdown-item" href="numbertypes.php">Statystyka numerów - rodzaj bazy</a></li>
+                    <li><a class="dropdown-item" href="numberpostalcodes.php">Statystyka numerów - kod pocztowy</a></li>
+                    <li><a class="dropdown-item" href="numbercities.php">Statystyka numerów - miasto</a></li>
+                    <li><a class="dropdown-item" href="numbercitiesdetailed.php">Statystyka numerów - miasto - szczegółowy</a></li>                    
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#">Raport 3</a></li>
+                    <li><a class="dropdown-item" href="#">--> Statystyka pobranych numerów (kto i ile z okresu)</a></li>
                 </ul>
             </li>
                 
@@ -65,13 +66,14 @@
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="set_date.php">Resetowanie dat numerów</a></li>
                     <li><a class="dropdown-item" href="checknumbers.php">Sprawdzanie numerów</a></li>
-                    <li><a class="dropdown-item" href="#">--> Generowanie SMS</a></li>
-                    <li><a class="dropdown-item" href="#">--> Dodawanie numerów</a></li>
                     <li><a class="dropdown-item" href="history.php">Historia pobrań</a></li>
-                    <li><a class="dropdown-item" href="#">--> panel dla miast i liczenie okolicy do X km</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="register.php">Załóż konto</a></li>
-                    <li><a class="dropdown-item" href="accounts.php">Lista użytkowników</a></li>
+                    <li><a class="dropdown-item" href="accounts.php">Account Management</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#">--> panel dla miast i liczenie okolicy do X km</a></li>
+                    <li><a class="dropdown-item" href="#">--> Generowanie SMS</a></li>
+                    <li><a class="dropdown-item" href="#">--> Dodawanie numerów</a></li>
                 </ul>
             </li>
             <?php

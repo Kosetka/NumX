@@ -261,6 +261,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php
                 $numberTypes = ["Dostępne numery" => "quantity", "Wszystkie numery" => "all", "Zablokowane numery" => "blocked", "Czasowo niedostępne" => "temporary"];
                 
+                
                 foreach ($numberTypes as $key => $value) {
                     echo "<tr>";
                     echo "<th colspan='2'>$key:</th>";
