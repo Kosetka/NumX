@@ -54,7 +54,6 @@ input[type="checkbox"]:checked {
 
 tr:nth-child(5) {
     background-color: #ffcc00; 
-    font-weight: bold; 
     color: #333; 
 }
 
