@@ -64,10 +64,10 @@
                     </a>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="set_date.php">Resetowanie dat numerów</a></li>
-                    <li><a class="dropdown-item" href="#">--> Sprawdzanie kodów pocztowych</a></li>
+                    <li><a class="dropdown-item" href="checknumbers.php">Sprawdzanie numerów</a></li>
                     <li><a class="dropdown-item" href="#">--> Generowanie SMS</a></li>
                     <li><a class="dropdown-item" href="#">--> Dodawanie numerów</a></li>
-                    <li><a class="dropdown-item" href="#">--> Historia logów</a></li>
+                    <li><a class="dropdown-item" href="history.php">Historia pobrań</a></li>
                     <li><a class="dropdown-item" href="#">--> panel dla miast i liczenie okolicy do X km</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="register.php">Załóż konto</a></li>
