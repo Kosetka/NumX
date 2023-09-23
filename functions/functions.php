@@ -49,7 +49,7 @@
                         $query = "SELECT COUNT(*) AS quantity FROM numbers WHERE city = :city AND database_type = :databaseType AND is_blocked = 0 AND last_access_date <= DATE_SUB(NOW(), INTERVAL $BLOCK_TIME DAY)";
                         break;
                     case 4:
-                        $query = "SELECT COUNT(*) AS quantity FROM numbers WHERE city = :city AND database_type = :databaseType AND last_access_date <= DATE_SUB(NOW(), INTERVAL $BLOCK_TIME DAY)";
+                        $query = "SELECT COUNT(*) AS quantity FROM numbers WHERE city = :city AND database_type = :databaseType AND is_blocked = 0 AND last_access_date >= DATE_SUB(NOW(), INTERVAL $BLOCK_TIME DAY)";
                         break;
                     default:
                         // Domyślna akcja - wszystkie numery
