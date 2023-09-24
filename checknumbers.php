@@ -10,11 +10,11 @@
 ?>
 
 <!DOCTYPE html>
-<html lang="pl" data-bs-theme="dark">
+<html lang="en" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sprawdzanie numerów - NumX</title>
+    <title>Number Verification - NumX - Advanced Phone Number Management</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="style.css">
@@ -31,12 +31,12 @@
     <div class="container mt-5 content">
         <div class="row">
             <div class="col">
-                <h2>Sprawdzanie numerów</h2>
+                <h2>Number Verification</h2>
                 <div class="mb-3">
                     <form class="needs-validation" novalidate method="POST" action="<?php echo $_SERVER["PHP_SELF"]; ?>" enctype="multipart/form-data">
-                        <label for="formFile" class="form-label">Wybierz plik CSV którego numery chcesz sprawdzić:</label>
+                        <label for="formFile" class="form-label">Select the CSV file containing the numbers you want to verify:</label>
                         <input class="form-control" type="file" id="formFile" name="filePostalcodes" accept=".csv">
-                        <button class="w-100 btn btn-primary btn-lg my-2" type="submit">Sprawdź</button>
+                        <button class="w-100 btn btn-primary btn-lg my-2" type="submit">Verify</button>
                     </form>
                 </div>
     
@@ -61,16 +61,16 @@
                     if (($handle = fopen($fileTmpName, "r")) !== FALSE) {
                         // Odczytywanie i wyświetlanie zawartości pliku
                         $fileOk = True;
-                        echo "<h3>Tabela z wynikami</h3>";
+                        echo "<h3>Results</h3>";
                         echo "<table class='table table-bordered'>";
                         $i = 0;
                         $total = 0;
                         while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
                             echo "<tr>";
                             if($i == 0) {
-                                echo "<th>Numer telefonu</th>";
-                                echo "<th>Rodzaj bazy</th>";
-                                echo "<th>Kod pocztowy</th>";
+                                echo "<th>Phone number</th>";
+                                echo "<th>Database source</th>";
+                                echo "<th>Postal code</th>";
                             } else {
                                 foreach ($data as $cell) {
                                     echo "<td>" . htmlspecialchars($cell) . "</td>";
@@ -78,7 +78,7 @@
                                         $db = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
                                         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                                     } catch (PDOException $e) {
-                                        die("Błąd połączenia z bazą danych: " . $e->getMessage());
+                                        die("Database connection error: " . $e->getMessage());
                                     }
                 
                                     $stmt = $db->prepare("SELECT * FROM numbers WHERE phone_number = :phone_number LIMIT 1");
@@ -102,17 +102,17 @@
                                         $total++;
                                         // Dodaj kolejne pola z bazy danych, które chcesz wyświetlić
                                     } else {
-                                        echo "<td style='color: red'>Brak numeru w bazie</td>";
-                                        echo "<td style='color: red'>Brak numeru w bazie</td>";
-                                        if(isset($numbersStatDBType["Brak numeru w bazie"])) {
-                                            $numbersStatDBType['Brak numeru w bazie']++;
+                                        echo "<td style='color: red'>Number not found in the database</td>";
+                                        echo "<td style='color: red'>Number not found in the database</td>";
+                                        if(isset($numbersStatDBType["Number not found in the database"])) {
+                                            $numbersStatDBType['Number not found in the database']++;
                                         } else {
-                                            $numbersStatDBType['Brak numeru w bazie'] = 1;
+                                            $numbersStatDBType['Number not found in the database'] = 1;
                                         }
-                                        if(isset($numbersStatPostalcodes['Brak kodu w bazie'])) {
-                                            $numbersStatPostalcodes['Brak kodu w bazie']++;
+                                        if(isset($numbersStatPostalcodes['Postal code not found in the database'])) {
+                                            $numbersStatPostalcodes['Postal code not found in the database']++;
                                         } else {
-                                            $numbersStatPostalcodes['Brak kodu w bazie'] = 1;
+                                            $numbersStatPostalcodes['Postal code not found in the database'] = 1;
                                         }
                                         $total++;
                                     }
@@ -128,19 +128,19 @@
                         fclose($handle);
                     } else {
                         echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            Błąd odczytu pliku CSV.
+                            Error reading CSV file.
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>';
                     }
                 } else {
                     echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    Błąd podczas przesyłania pliku.
+                    Error while uploading the file.
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>';
                 }
             } else {
                 echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    Przesyłany plik musi mieć rozszerzenie .csv.
+                The uploaded file must have a .csv extension.
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>';
             }
@@ -152,14 +152,14 @@
             ?>
             <div class="col">
                 <div class="row">
-                    <h2>Szczegóły - rodzaj bazy</h2>
+                    <h2>Details - Database type</h2>
                     <div class="mb-3">
                         <?php
                             echo "<table class='table table-bordered'>";
                             echo "<tr>";
-                            echo "<th>Rodzaj bazy</th>";
-                            echo "<th>Ilość numerów</th>";
-                            echo "<th>% występowania</th>";
+                            echo "<th>Database type</th>";
+                            echo "<th>Number of phone numbers</th>";
+                            echo "<th>% occurrence</th>";
                             echo "</tr>";
                             foreach ($numbersStatDBType as $key => $value) {
                                 echo "<tr>";
@@ -170,7 +170,7 @@
                                 echo "</tr>";
                             }
                             echo "<tr>";
-                            echo "<th>Ilość numerów</th>";
+                            echo "<th>Number of phone numbers</th>";
                             echo "<th>".$total."</th>";
                             echo "<th>100%</th>";
                             echo "</tr>";
@@ -179,14 +179,14 @@
                     </div>
                 </div>
                 <div class="row">
-                    <h2>Szczegóły - kod pocztowy</h2>
+                    <h2>Details - Postal code</h2>
                     <div class="mb-3">
                         <?php
                             echo "<table class='table table-bordered'>";
                             echo "<tr>";
-                            echo "<th>Kod pocztowy</th>";
-                            echo "<th>Ilość numerów</th>";
-                            echo "<th>% występowania</th>";
+                            echo "<th>Postal code</th>";
+                            echo "<th>Number of phone numbers</th>";
+                            echo "<th>% occurrence</th>";
                             echo "</tr>";
                             foreach ($numbersStatPostalcodes as $key => $value) {
                                 echo "<tr>";
@@ -197,7 +197,7 @@
                                 echo "</tr>";
                             }
                             echo "<tr>";
-                            echo "<th>Ilość numerów</th>";
+                            echo "<th>Number of phone numbers</th>";
                             echo "<th>".$total."</th>";
                             echo "<th>100%</th>";
                             echo "</tr>";
@@ -214,7 +214,7 @@
 
     <!-- Stopka -->
     <footer class="text-center py-3">
-        &copy; 2023 NumX - zarządzanie numerami
+        &copy; 2023 NumX - Advanced Phone Number Management
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>

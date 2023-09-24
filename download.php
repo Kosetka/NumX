@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $db = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     } catch (PDOException $e) {
-        die('Błąd połączenia z bazą danych: ' . $e->getMessage());
+        die('Database connection error: ' . $e->getMessage());
     }
 
     $conditions = [];
@@ -123,9 +123,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $newFileName = "{$city}_{$filenameTypesAndQuantity}{$timestamp}_numbers.csv"; 
     $newFilePath = $uploadDirectory . $newFileName; 
     if (rename($filePath, $newFilePath)) {
-        echo "Plik został pomyślnie zmieniony nazwę na $newFilePath.";
+        echo "The file has been successfully renamed to $newFilePath.";
     } else {
-        echo "Nie udało się zmienić nazwy pliku.";
+        echo "Failed to rename the file.";
     }
 
     // Aktualizacja daty pobrania numerów na dzisiaj
@@ -153,11 +153,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <!DOCTYPE html>
-<html lang="pl" data-bs-theme="dark">
+<html lang="en" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pobieranie numerów - NumX</title>
+    <title>Downloading Numbers - NumX - Advanced Phone Number Management</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="style.css">
@@ -176,30 +176,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php
         if (isset($_GET['e'])) {
             if ($_GET['e'] == 1) {
-                echo '<div class="error-message">Nie wybrano bazy danych</div>';
+                echo '<div class="error-message">No database selected.</div>';
             } else if ($_GET['e'] == 2) {
-                echo '<div class="error-message">Nie wybrano ilości</div>';
+                echo '<div class="error-message">No quantity selected.</div>';
             } else if ($_GET['e'] == 3) {
-                echo '<div class="error-message">Nie wybrano miasta</div>';
+                echo '<div class="error-message">No city selected.</div>';
             } else {
-                echo '<div class="error-message">Nieznany błąd</div>';
+                echo '<div class="error-message">Undefined error</div>';
             }
         }
     ?>
-    <h1>Pobieranie Danych</h1>
+    <h1>Downloading Numbers</h1>
     <form method="POST" action="">
         <table>
             <tr>
-                <th>Miasto:</th>
+                <th>City:</th>
                 <td>
                     <select name="city" id="city" required onchange="citySelectionChanged()">
-                        <option value="">Wybierz miasto</option>
+                        <option value="">Select city</option>
                         <?php
                             try {
                                 $db = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
                                 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                             } catch (PDOException $e) {
-                                die('Błąd połączenia z bazą danych: ' . $e->getMessage());
+                                die('Database connection error: ' . $e->getMessage());
                             }
 
                             $query = "SELECT DISTINCT city FROM numbers";
@@ -218,7 +218,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $db = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
                     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 } catch (PDOException $e) {
-                    die('Błąd połączenia z bazą danych: ' . $e->getMessage());
+                    die('Database connection error: ' . $e->getMessage());
                 }
 
                 $query = "SELECT DISTINCT database_type FROM numbers";
@@ -234,14 +234,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 foreach ($databases_type as $database_type) {
                     echo "<th rowspan='2'>$database_type:</th>";
                 }
-                echo "<th rowspan='2'>Wszystkie:</th>";
+                echo "<th rowspan='2'>Total:</th>";
             ?>
             </tr>
             <tr>
-                <th colspan="2">Rodzaj bazy:</th>
+                <th colspan="2">Database type:</th>
             </tr>
             <tr>
-                <th colspan="2" rowspan = "2">Ile pobrać:</th>
+                <th colspan="2" rowspan = "2">How many to download:</th>
 
                 <?php
                     foreach ($databases_type as $database_type) {
@@ -259,7 +259,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </tr>
 
             <?php
-                $numberTypes = ["Dostępne numery" => "quantity", "Wszystkie numery" => "all", "Zablokowane numery" => "blocked", "Czasowo niedostępne" => "temporary"];
+                $numberTypes = ["Available numbers" => "quantity", "All numbers" => "all", "Blacklist numbers" => "blocked", "Temporary blocked numbers" => "temporary"];
+                
                 
                 foreach ($numberTypes as $key => $value) {
                     echo "<tr>";
@@ -273,7 +274,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ?>
             <tr>
                 <th colspan="<?php echo count($databases_type) + 3; ?>">
-                    <button type="submit">Pobierz Dane</button>
+                    <button type="submit">Download</button>
                 </th>
             </tr>
         </table>
@@ -282,7 +283,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <!-- Stopka -->
     <footer class="text-center py-3">
-        &copy; 2023 NumX - zarządzanie numerami
+        &copy; 2023 NumX - Advanced Phone Number Management
     </footer>
 
     <?php

@@ -28,8 +28,24 @@
         }
     }
 
-    function getQuantityFromDatabase($db, $city, $databaseType, $action) {
+    function getQuantityFromDatabase($db, $city, $databaseType2, $action, $postal_code = null) {
         global $BLOCK_TIME;
+        if ($city == "all") {
+            $isCity = "";
+        } else {
+            $isCity = "city = '$city' AND ";
+        }
+        if ($databaseType2 == "all") {
+            $isDatabaseType2 = "";
+        } else {
+            $isDatabaseType2 = "database_type = '$databaseType2' AND ";
+        }
+        if ($postal_code == null) {
+            $isPostal_code = "";
+        } else {
+            $isPostal_code = "postal_code = :postal_code AND ";
+        }
+
         try {
             //              ACTION 
             //      1 => wszystkie numery
@@ -40,41 +56,40 @@
                 switch ($action) {
                     case 1:
                         // Wszystkie numery
-                        $query = "SELECT COUNT(*) AS quantity FROM numbers WHERE city = :city AND database_type = :databaseType";
+                        $query = "SELECT COUNT(*) AS quantity FROM numbers WHERE $isCity $isPostal_code $isDatabaseType2 1=1";
                         break;
                     case 2:
-                        $query = "SELECT COUNT(*) AS quantity FROM numbers WHERE city = :city AND database_type = :databaseType AND is_blocked = 1";
+                        $query = "SELECT COUNT(*) AS quantity FROM numbers WHERE $isCity $isPostal_code $isDatabaseType2 is_blocked = 1";
                         break;
                     case 3:
-                        $query = "SELECT COUNT(*) AS quantity FROM numbers WHERE city = :city AND database_type = :databaseType AND is_blocked = 0 AND last_access_date <= DATE_SUB(NOW(), INTERVAL $BLOCK_TIME DAY)";
+                        $query = "SELECT COUNT(*) AS quantity FROM numbers WHERE $isCity $isPostal_code $isDatabaseType2 is_blocked = 0 AND last_access_date <= DATE_SUB(NOW(), INTERVAL $BLOCK_TIME DAY)";
                         break;
                     case 4:
-                        $query = "SELECT COUNT(*) AS quantity FROM numbers WHERE city = :city AND database_type = :databaseType AND is_blocked = 0 AND last_access_date >= DATE_SUB(NOW(), INTERVAL $BLOCK_TIME DAY)";
+                        $query = "SELECT COUNT(*) AS quantity FROM numbers WHERE $isCity $isPostal_code $isDatabaseType2 is_blocked = 0 AND last_access_date >= DATE_SUB(NOW(), INTERVAL $BLOCK_TIME DAY)";
                         break;
                     default:
                         // Domyślna akcja - wszystkie numery
-                        $query = "SELECT COUNT(*) AS quantity FROM numbers WHERE city = :city AND database_type = :databaseType";
+                        $query = "SELECT COUNT(*) AS quantity FROM numbers WHERE $isCity $isPostal_code $isDatabaseType2 1=1";
                         break;
                 }
-        
-                $stmt = $db->prepare($query);
-                $stmt->bindParam(':city', $city, PDO::PARAM_STR);
-                $stmt->bindParam(':databaseType', $databaseType, PDO::PARAM_STR);
-                $stmt->execute();
-        
-                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                $stmtlocal = $db->prepare($query);
+
+                if (!$postal_code == null) {
+                    $stmtlocal->bindParam(':postal_code', $postal_code, PDO::PARAM_STR);
+                }
+                $stmtlocal->execute();
+
+                $result = $stmtlocal->fetch(PDO::FETCH_ASSOC);
                 $quantity = isset($result['quantity']) ? $result['quantity'] : 0;
-        
+                
                 return $quantity;
         
             } catch (PDOException $e) {
-                return false; 
+                return $e; 
             }
 
         } catch (PDOException $e) {
-            return false; 
+            return $e; 
         }
     }
-
-
 ?>

@@ -48,6 +48,8 @@ function fetchQuantityFromDatabase(city, databaseType, action) {
                 if (allLabel) {
                     allLabel.innerHTML = quantities[databaseType];
                 }
+                
+            console.log(quantities);
                 sumValues("all");
             } else if (action == 2) {
                 let blockedLabelId = 'blocked' + databaseType + 'Label';

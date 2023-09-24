@@ -56,6 +56,10 @@ tr:nth-child(5) {
     background-color: #ffcc00; 
     color: #333; 
 }
+.highlight {
+    background-color: #ffcc00; 
+    color: #333; 
+}
 
 .error-message {
     color: red;

@@ -10,11 +10,11 @@
 ?>
 
 <!DOCTYPE html>
-<html lang="pl" data-bs-theme="dark">
+<html lang="en" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zarządzanie kontami - NumX</title>
+    <title>Account Management - NumX - Advanced Phone Number Management</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="style.css">
@@ -69,7 +69,7 @@
                 $db = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
                 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             } catch (PDOException $e) {
-                die("Błąd połączenia z bazą danych: " . $e->getMessage());
+                die("Database connection error: " . $e->getMessage());
             }
 
             // Zahaszuj hasło przed zapisaniem do bazy danych
@@ -109,7 +109,7 @@
                 $db2 = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
                 $db2->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             } catch (PDOException $e) {
-                die("Błąd połączenia z bazą danych: " . $e->getMessage());
+                die("Database connection error: " . $e->getMessage());
             }
             $id = htmlspecialchars($_GET["edit"]);
             $stmt = $db2->prepare("SELECT id, username, password, role, firstName, lastName, email, active FROM users WHERE id = :id");
@@ -145,73 +145,73 @@
     ?>
 
         <div class="col-md-7 col-lg-6 mx-auto text-center">
-            <h4 class="mb-3">Edycja konta użytkownika</h4>
+            <h4 class="mb-3">Edit User Account</h4>
             <form class="needs-validation" novalidate method="POST" action="<?php echo $_SERVER["PHP_SELF"]; ?>">
                 <div class="row g-3">
                     <div class="col-sm-6">
                         <input type="text" class="form-control" id="id" name="id" value="<?php echo $id; ?>" hidden>
-                        <label for="firstName" class="form-label">Imię</label>
+                        <label for="firstName" class="form-label">Firstname</label>
                         <input type="text" class="form-control" id="firstName" name="firstName" placeholder="" value="<?php echo $userGetFirstName; ?>" required>
                         <div class="invalid-feedback">
-                            Imię jest wymagane.
+                            Firstname is required.
                         </div>
                     </div>
                     <div class="col-sm-6">
-                        <label for="lastName" class="form-label">Nazwisko</label>
+                        <label for="lastName" class="form-label">Lastname</label>
                         <input type="text" class="form-control" id="lastName" name="lastName" placeholder="" value="<?php echo $userGetLastName; ?>" required>
                         <div class="invalid-feedback">
-                            Nazwisko jest wymagane.
+                            Lastname is required.
                         </div>
                     </div>
                     <div class="col-12">
-                        <label for="usernameCreated" class="form-label">Nazwa użytkownika</label>
+                        <label for="usernameCreated" class="form-label">Username</label>
                         <div class="input-group has-validation">
                             <span class="input-group-text">Login</span>
                             <input type="text" class="form-control" id="usernameCreated" name="usernameCreated" value = "<?php echo $userGetName; ?>" placeholder="" required disabled>
                             <div class="invalid-feedback">
-                                Nazwa użytkownika jest wymagana.
+                                Username is required.
                             </div>
                         </div>
                     </div>
                     <div class="col-12">
-                        <label for="email" class="form-label">E-mail <span class="text-body-secondary">(Opcjonalnie)</span></label>
+                        <label for="email" class="form-label">E-mail <span class="text-body-secondary">(Optional)</span></label>
                         <div class="input-group has-validation">
                             <span class="input-group-text">E-mail</span>
                             <input type="email" class="form-control" id="email" name="email" value = "<?php echo $userEmail; ?>" placeholder="">
                             <div class="invalid-feedback">
-                                Musisz podać prawidłowy adres e-mail.
+                                You must provide a valid email address."
                             </div>
                         </div>
                     </div>
                     <div class="col-12">
-                        <label for="passwordCreated" class="form-label">Hasło</label>
+                        <label for="passwordCreated" class="form-label">Password</label>
                         <div class="input-group has-validation">
                             <span class="input-group-text">Password</span>
                             <input type="password" class="form-control" id="passwordCreated" name="passwordCreated">
                             <div class="invalid-feedback">
-                                Hasła muszą się zgadzać.
+                                Passwords must match.
                             </div>
                         </div>
                     </div>
                     <div class="col-12">
-                        <label for="passwordCreated" class="form-label">Rola użytkownika</label>
+                        <label for="passwordCreated" class="form-label">User Role</label>
                         <select class="form-select form-select-sm" aria-label="Small select example" id="role" name="role">
                             <option value="Admin" <?php echo ($userRole == 'Admin' ? 'selected': ''); ?>>Admin</option>
-                            <option value="Koordynator" <?php echo ($userRole == 'Koordynator' ? 'selected': ''); ?>>Koordynator</option>
+                            <option value="Koordynator" <?php echo ($userRole == 'Koordynator' ? 'selected': ''); ?>>Coordinator</option>
                         </select>
                     </div>
                     <div class="col-12 ">
-                        <label for="flexSwitchCheckChecked" class="form-label">Konto aktywne: </label>
+                        <label for="flexSwitchCheckChecked" class="form-label">Account Activated: </label>
                         <input class="form-check-input" type="checkbox" role="switch" name="active" id="flexSwitchCheckChecked" <?php echo ($active == 1 ? 'checked': ''); ?>>
                     </div>
-                <button class="w-100 btn btn-primary btn-lg" type="submit">Zapisz zmiany</button>
+                <button class="w-100 btn btn-primary btn-lg" type="submit">Save Changes</button>
                 </div>
             </form>
         </div>
         <?php
                 } else {
                     echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        Takie konto nie istnieje!
+                        This account does not exist!
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>';
                 }
@@ -219,12 +219,12 @@
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if ($messegeStatus == 1) {
                     echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
-                        Edycja konta pomyślna.
+                        Account Edit Successful.
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>';
                 } else if ($messegeStatus == 0) {
                     echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        Błąd przy edytowaniu konta.
+                        Error While Editing an Account.
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>';
                 }
@@ -234,13 +234,13 @@
 
 
         <div class="my-3 p-3 bg-body rounded shadow-sm">
-            <h6 class="border-bottom pb-2 mb-0">Lista kont</h6>
+            <h6 class="border-bottom pb-2 mb-0">List of Accounts</h6>
             <?php
                 try {
                     $db = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
                     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 } catch (PDOException $e) {
-                    die('Błąd połączenia z bazą danych: ' . $e->getMessage());
+                    die('Database connection error: ' . $e->getMessage());
                 }
 
                 $query = "SELECT * FROM users";
@@ -254,7 +254,7 @@
                         <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
                             <div class="d-flex justify-content-between">
                                 <strong class="text-gray-dark">'.$row["firstName"].' '.$row["lastName"].'</strong>
-                                <a href="accounts.php?edit='.$row["id"].'">Edytuj</a>
+                                <a href="accounts.php?edit='.$row["id"].'">Edit</a>
                             </div>
                             <span class="d-block">'.$row["role"].'</span>
                         </div>
@@ -266,14 +266,14 @@
 
             ?>
             <small class="d-block text-end mt-3">
-                <a href="register.php">Załóż nowe konto</a>
+                <a href="register.php">Create New Account</a>
             </small>
         </div>
     </div>
 
     <!-- Stopka -->
     <footer class="text-center py-3">
-        &copy; 2023 NumX - zarządzanie numerami
+        &copy; 2023 NumX - Advanced Phone Number Management
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
