@@ -10,11 +10,11 @@
 ?>
 
 <!DOCTYPE html>
-<html lang="pl" data-bs-theme="dark">
+<html lang="en" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Szablon - NumX</title>
+    <title>Szablon - Advanced Phone Number Management</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="style.css">
@@ -29,13 +29,13 @@
 
     <!-- Treść strony -->
     <div class="container mt-5 content">
-        <h1>Szablom</h1>
-        <p>To jest treść strony.</p>
+        <h1>Szablon</h1>
+        <p>Page content</p>
     </div>
 
     <!-- Stopka -->
     <footer class="text-center py-3">
-        &copy; 2023 NumX - zarządzanie numerami
+        &copy; 2023 NumX - Advanced Phone Number Management
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>

@@ -41,18 +41,18 @@
             header("Location: index.php");
             exit();
         } else {
-            $error_message = "Błędna nazwa użytkownika lub hasło";
+            $error_message = "Invalid username or password";
         }
     }
 ?>
 
 
 <!DOCTYPE html>
-<html lang="pl" data-bs-theme="dark">
+<html lang="en" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logowanie - NumX</title>
+    <title>Logowanie - Advanced Phone Number Management</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="style.css">
@@ -69,14 +69,14 @@
 
         <main class="form-signin m-auto d-flex align-items-center py-3 px-5 bg-body-tertiary" style="border-radius: 25px">
             <form method="post" action="<?php echo $_SERVER["PHP_SELF"]; ?>">
-                <h2 class="h3 mb-3 fw-normal">Logowanie</h2>
+                <h2 class="h3 mb-3 fw-normal">Log in</h2>
                 <div class="form-floating">
                     <input type="text" class="form-control" id="username" name="username" required>
-                    <label for="username">Nazwa użytkownika</label>
+                    <label for="username">Username</label>
                 </div>
                 <div class="form-floating">
                     <input type="password" class="form-control" id="password" name="password">
-                    <label for="password">Hasło</label>
+                    <label for="password">Password</label>
                     <?php
                         if(isset($error_message)){
                             echo '<div class="alert alert-danger alert-dismissible fade show my-2" role="alert">
@@ -97,7 +97,7 @@
 
     <!-- Stopka -->
     <footer class="text-center py-3">
-        &copy; 2023 NumX - zarządzanie numerami
+        &copy; 2023 NumX - Advanced Phone Number Management
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
